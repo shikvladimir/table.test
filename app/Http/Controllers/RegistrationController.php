@@ -17,6 +17,13 @@ class RegistrationController extends Controller
     public function registrationUser(Request $request){
         $data = $request->all();
         $data['password'] = Hash::make($data['password']);
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'email:rfc,dns',
+            'password' => 'required|min:5',
+        ]);
+
         User::query()->create($data);
         return redirect()->route('login');
     }

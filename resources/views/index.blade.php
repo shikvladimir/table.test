@@ -1,13 +1,17 @@
 @extends('layout')
+
 @section('content')
-<form action="{{route('product.create')}}">
-    <button class="button" type="submit">Создать продукт</button>
-</form>
+
+
 <div class="container">
 
 
     <div>
-        <table><h1>Таблица </h1>
+        <h1>Таблица </h1>
+        <form class="item" action="{{route('product.create')}}">
+            <button class="button" type="submit">Создать продукт</button>
+        </form>
+        <table>
             <tbody>
             <tr>
                 <th>article</th>
@@ -15,15 +19,18 @@
                 <th>status</th>
                 <th>color</th>
                 <th>size</th>
+                <th>Редактирование</th>
             </tr>
 
-            @foreach($posts as $item)
+            @foreach($products as $product)
             <tr>
-                <td>{{$item->article}}</td>
-                <td>{{$item->name}}</td>
-                <td>{{$item->status}}</td>
-                <td>{{$item->color}}</td>
-                <td>{{$item->size}}</td>
+                <td>{{$product->article}}</td>
+                <td>{{$product->name}}</td>
+                <td>{{$product->status}}</td>
+                <td>{{$product->color}}</td>
+                <td>{{$product->size}}</td>
+                <td><a href="{{route('product.edit',$product->id)}}">Редактировать</a></td>
+
             </tr>
             @endforeach
 

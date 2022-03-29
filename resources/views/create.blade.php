@@ -1,11 +1,12 @@
 @extends('layout')
+
 @section('content')
 
     <form class="form" method="POST" action="{{route('product.store')}}">
         @csrf
-        <h1>
+        <h3>
             Новый товар
-        </h1>
+        </h3>
         <div class="item" >
             <input name="article" type="text" placeholder="article">
         </div>

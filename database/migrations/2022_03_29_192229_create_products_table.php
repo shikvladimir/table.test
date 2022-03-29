@@ -14,17 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id()->autoIncrement();
-            $table->unsignedInteger('userID');
+            $table->id();
             $table->string('article',255)->unique();
             $table->string('name',255);
             $table->string('status',255)->default('unavailable');
-            $table->jsonb('color');
-            $table->jsonb('size');
+            $table->jsonb('color')->nullable();
+            $table->jsonb('size')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('userID')->references('id')->on('users');
+            $table->foreignId('user_id')->constrained();
         });
     }
 

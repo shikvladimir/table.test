@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -14,8 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $posts = Product::query()->get();
-        return view('index',compact('posts'));
+        $products = Product::query()->get();
+        return view('index',compact('products'));
     }
 
     /**
@@ -25,7 +26,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('form');
+        return view('create');
     }
 
     /**
@@ -36,7 +37,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Product::query()->create($request->only(['article','name','status','color','size']));
+        $data = new Product();
+        $data->article = $request->article;
+        $data->name = $request->name;
+        $data->status = $request->status;
+        $data->color = $request->color;
+        $data->size = $request->size;
+        $data['user_id'] = Auth::id();
+        $data->save();
+
         return redirect()->route('product.index');
     }
 
@@ -54,24 +63,23 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('update',compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $product->update($request->all());
+        return redirect()->route('product.index');
     }
 
     /**
