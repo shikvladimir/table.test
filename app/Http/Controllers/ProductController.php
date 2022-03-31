@@ -17,14 +17,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
+//        $users = User::role('user')->get();
+//        dd($users);
 
-        $role = Role::findById(2);
-        $permission = Permission::findById(1);
+        $role = Role::findByName('user');
+        $role->givePermissionTo('show product','add product');
 
-        $permission->assignRole($role);
-        dd($permission);
         $products = Product::query()->get();
         return view('index', compact('products'));
     }

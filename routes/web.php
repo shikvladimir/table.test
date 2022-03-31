@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('product', ProductController::class)
-    ->middleware(Authenticate::class);
+    ->middleware(Authenticate::class)
+->middleware('can:show product');
 
 //Route::resource('users', UserController::class);
 
