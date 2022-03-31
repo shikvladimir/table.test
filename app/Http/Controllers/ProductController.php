@@ -19,11 +19,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-//        $users = User::role('user')->get();
-//        dd($users);
+
 
         $role = Role::findByName('user');
-        $role->givePermissionTo('show product','add product');
+        $role->givePermissionTo('show product', 'add product');
 
         $products = Product::query()->get();
         return view('index', compact('products'));
@@ -47,9 +46,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
-            'article' => 'required|unique:products|regex:/^[a-zA-Z0-9_\-]*$/',
-            'name' =>'required|min:10',
+            'article' => ['required', 'unique:products', 'regex:/^[a-zA-Z0-9_\-]*$/'],
+            'name' => ['required', 'min:10'],
         ]);
 
         $data = new Product();
@@ -93,12 +93,21 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $request->validate([
-            'article' => 'required|unique:products|regex:/^[a-zA-Z0-9_\-]*$/',
-            'name' =>'required|min:10',
-        ]);
+
+        if (Auth::user()->hasRole('user') == true) {
+            $request->validate([
+                'article' => ['unique:products', 'regex:/^[a-zA-Z0-9_\-]*$/'],
+                'name' => ['required', 'min:10'],
+            ]);
+        } else {
+            $request->validate([
+                'article' => ['required', 'unique:products', 'regex:/^[a-zA-Z0-9_\-]*$/'],
+                'name' => ['required', 'min:10'],
+            ]);
+        }
 
         $product->update($request->all());
+
         return redirect()->route('product.index');
     }
 

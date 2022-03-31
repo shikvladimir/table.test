@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class Product extends Model
 {
@@ -23,9 +25,16 @@ class Product extends Model
         return $query->where('status', '=', 'available');
     }
 
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo(User::class);
     }
 
+    public function getRequiredAttribute()
+    {
+        if (Auth::user()->hasRole('user')) {
+            return ' ';
+        }
+    }
 
 }

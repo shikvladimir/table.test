@@ -18,7 +18,7 @@
         <h3>
             Редактировать товар
         </h3>
-        @if(auth()->user()->can('edit product'))--}}
+        @if(auth()->user()->can('edit product'))
         <div class="item" >
             <input
                 value="{{$product->article}}"

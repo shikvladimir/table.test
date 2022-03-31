@@ -19,9 +19,7 @@
                         <th>Status</th>
                         <th>Color</th>
                         <th>Size</th>
-                        @if(auth()->user()->can('edit product'))
-                            <th>Updates</th>
-                        @endif
+                        <th>Updates</th>
                         <th>Removal</th>
                     </tr>
 
