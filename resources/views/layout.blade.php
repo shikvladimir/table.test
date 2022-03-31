@@ -9,7 +9,15 @@
     <title>Test</title>
 </head>
 <body>
-
+@if(isset($user->name))
+<p>Привет:&nbsp;{{$user->name}}</p>
+@endif
+@if(\Illuminate\Support\Facades\Auth::check() == 'true')
+<form method="POST" action="{{route('logout')}}">
+    @csrf
+    <button type="submit">Выйти из системы</button>
+</form>
+@endif
 @yield('content')
 </body>
 </html>

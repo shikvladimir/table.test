@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -20,11 +22,16 @@ use Illuminate\Support\Facades\Route;
 Route::resource('product', ProductController::class)
     ->middleware(Authenticate::class);
 
+//Route::resource('users', UserController::class);
+
 Route::get('login', [LoginController::class, 'login'])
     ->name('login');
 
 Route::post('login', [LoginController::class, 'checkLogin'])
     ->name('checkLogin');
+
+Route::post('logout',[LogoutController::class, 'logout'])
+    ->name('logout');
 
 Route::get('registrationPage',[RegistrationController::class, 'registrationPage'])
     ->name('registrationPage');

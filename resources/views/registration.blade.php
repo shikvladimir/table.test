@@ -19,7 +19,6 @@
     <button  type="submit">Отправить</button>
 </div>
 
-
         </form>
 
         <form class="bt" method="GET" action="{{route('login')}}">

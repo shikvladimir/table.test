@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <div class="container">
 
 
@@ -14,12 +13,13 @@
         <table>
             <tbody>
             <tr>
-                <th>article</th>
-                <th>name</th>
-                <th>status</th>
-                <th>color</th>
-                <th>size</th>
-                <th>Редактирование</th>
+                <th>Article</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Color</th>
+                <th>Size</th>
+                <th>Updates</th>
+                <th>Removal</th>
             </tr>
 
             @foreach($products as $product)
@@ -29,7 +29,14 @@
                 <td>{{$product->status}}</td>
                 <td>{{$product->color}}</td>
                 <td>{{$product->size}}</td>
-                <td><a href="{{route('product.edit',$product->id)}}">Редактировать</a></td>
+                <td><a href="{{route('product.edit',$product->id)}}">Edit</a></td>
+                <td>
+                    <form action="{{route('product.destroy',$product->id)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" >Delete</button>
+                    </form>
+                </td>
 
             </tr>
             @endforeach

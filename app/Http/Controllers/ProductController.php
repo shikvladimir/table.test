@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class ProductController extends Controller
 {
@@ -13,10 +17,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
+
+        $role = Role::findById(2);
+        $permission = Permission::findById(1);
+
+        $permission->assignRole($role);
+        dd($permission);
         $products = Product::query()->get();
-        return view('index',compact('products'));
+        return view('index', compact('products'));
     }
 
     /**
@@ -32,11 +42,16 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'article' => 'required|unique:products|regex:/^[a-zA-Z0-9_\-]*$/',
+            'name' =>'required|min:10',
+        ]);
+
         $data = new Product();
         $data->article = $request->article;
         $data->name = $request->name;
@@ -52,7 +67,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -67,17 +82,22 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('update',compact('product'));
+        return view('update', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
     {
+        $request->validate([
+            'article' => 'required|unique:products|regex:/^[a-zA-Z0-9_\-]*$/',
+            'name' =>'required|min:10',
+        ]);
+
         $product->update($request->all());
         return redirect()->route('product.index');
     }
@@ -85,11 +105,13 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('product.index');
     }
 }
