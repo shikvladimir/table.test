@@ -30,9 +30,7 @@
                             <td>{{$product->status}}</td>
                             <td>{{$product->color}}</td>
                             <td>{{$product->size}}</td>
-{{--                            @if(auth()->user()->can('edit product'))--}}
-                                <td><a href="{{route('product.edit',$product->id)}}">Edit</a></td>
-{{--                            @endif--}}
+                            <td><a href="{{route('product.edit',$product->id)}}">Edit</a></td>
                             <td>
                                 <form action="{{route('product.destroy',$product->id)}}" method="POST">
                                     @csrf

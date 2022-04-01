@@ -23,12 +23,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-
         $role = Role::findByName('user');
         $role->givePermissionTo('show product', 'add product');
 
-        $products = Product::query()->get();
+        if(Auth::user()->hasRole('user') == true){
+            $products = Product::status()->get();
+        }else{
+            $products = Product::query()->get();
+        }
+
         return view('index', compact('products'));
     }
 
@@ -60,8 +63,8 @@ class ProductController extends Controller
         $data->article = $request->article;
         $data->name = $request->name;
         $data->status = $request->status;
-        $data->color = $request->color;
-        $data->size = $request->size;
+        $data->color = json_encode($request->color);
+        $data->size = json_encode($request->size);
         $data['user_id'] = Auth::id();
         $data->save();
 

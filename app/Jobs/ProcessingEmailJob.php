@@ -40,6 +40,7 @@ class ProcessingEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to('admin@gmail.com')->send(new SendProductCreated($this->data));
+        Mail::to('olololo@m.ru')->send(new SendProductCreated($this->data));
+//        Mail::send(new SendProductCreated($this->data));
     }
 }

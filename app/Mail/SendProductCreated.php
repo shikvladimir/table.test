@@ -18,7 +18,7 @@ class SendProductCreated extends Mailable
      * @return void
      */
 
-    public $data;
+    private $data;
 
     public function __construct($data)
     {
@@ -32,9 +32,9 @@ class SendProductCreated extends Mailable
      */
     public function build()
     {
-        return $this->from('admin@gmail.com', 'New Product')
+        return $this
+            ->from('admin@gmail.com', 'New Product')
             ->subject('New Product Created')
             ->view('mail.productCreated',['data'=>$this->data]);
-
     }
 }
