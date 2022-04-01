@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\EmailProductCreated;
+use App\Jobs\ProcessingEmailJob;
 use App\Mail\SendProductCreated;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -63,7 +65,8 @@ class ProductController extends Controller
         $data['user_id'] = Auth::id();
         $data->save();
 
-        event(new EmailProductCreated($data));
+
+        ProcessingEmailJob::dispatch('data');
 
         return redirect()->route('product.index');
     }

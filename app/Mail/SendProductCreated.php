@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Jobs\ProcessingEmailJob;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -34,5 +35,6 @@ class SendProductCreated extends Mailable
         return $this->from('admin@gmail.com', 'New Product')
             ->subject('New Product Created')
             ->view('mail.productCreated',['data'=>$this->data]);
+
     }
 }
