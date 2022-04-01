@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EmailProductCreated;
+use App\Mail\SendProductCreated;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -60,6 +62,8 @@ class ProductController extends Controller
         $data->size = $request->size;
         $data['user_id'] = Auth::id();
         $data->save();
+
+        event(new EmailProductCreated($data));
 
         return redirect()->route('product.index');
     }

@@ -30,11 +30,4 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getRequiredAttribute()
-    {
-        if (Auth::user()->hasRole('user')) {
-            return ' ';
-        }
-    }
-
 }
